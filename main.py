@@ -93,8 +93,8 @@ if __name__ == '__main__':
                                   href=adv_href,
                                   description=adv_description))
 
-        db.session.commit()
-    
+
+    db.session.commit()
     print(db.session.query(Advert).all())
 
 
