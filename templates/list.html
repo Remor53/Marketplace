@@ -13,7 +13,7 @@
     {% endfor %}
     <br>
     {% for item in advert %}
-    <div><span>{{ item.title }}</span>
+    <div><a href = "/post/{{ item.id }}">{{ item.title }}</a>
         <span class = desc_delimetr>    #####    </span>
         <span>{{ item.description }}</span>
         </div>
