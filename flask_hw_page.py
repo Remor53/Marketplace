@@ -19,6 +19,7 @@ def c_list():
     for advert in db.session.query(Advert).all():
         num += 1
         advert_list.append({'title': advert.title, 'description': advert.description, 'id': num})
+    db.session.close()
     return render_template('list.html', category=category_list, advert=advert_list)
 
 
@@ -30,6 +31,7 @@ def show_post(post_id):
             num += 1
             if num == post_id:
                 advert_item = {'title': advert.title, 'description': advert.description, 'id': num}
+    db.session.close()
     return render_template('card.html', advert=advert_item)
 
 
