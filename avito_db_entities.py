@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.types import Integer, String, Date, Enum, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
+from flask_login import UserMixin
 
 ''' 
 Database includes three entities of Category, Advert, User.
@@ -40,12 +41,11 @@ class Advert(Base):
                "\t\t description='{self.description}')".format(self=self)
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'users'
     user_id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
-    phone = Column(String(50), nullable=False)
-    address = Column(String(255))
+    login = Column(String(100), unique=True)
+    password = Column(String(255))
     created_on = Column(DateTime, nullable=True)
 
     def get_id(self):
