@@ -47,3 +47,6 @@ class User(Base):
     phone = Column(String(50), nullable=False)
     address = Column(String(255))
     created_on = Column(DateTime, nullable=True)
+
+    def get_id(self):
+        return self.user_id

@@ -6,9 +6,12 @@ from avito_db_entities import Base, Category, Advert
 # start the DB engine
 engine = create_engine('sqlite:///avito_adv_old.db', echo=True)
 
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=engine, autocommit=True)
 
-session = Session()
+
+def create_session():
+    session = Session()
+    return session
 
 Base.metadata.create_all(engine)
 
