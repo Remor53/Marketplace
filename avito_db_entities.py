@@ -3,7 +3,7 @@ from sqlalchemy.types import Integer, String, Date, Enum, DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 
 ''' 
-Database consists three entities of Category, Advert, User.
+Database includes three entities of Category, Advert, User.
 '''
 
 # TODO: Check when databases are created if the current tables exists in order to avoid problems when new configuration
