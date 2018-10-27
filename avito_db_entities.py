@@ -44,6 +44,12 @@ class User(Base):
     __tablename__ = 'users'
     user_id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
-    phone = Column(String(50), nullable=False)
+    phone = Column(String(50), nullable=True)
     address = Column(String(255))
     created_on = Column(DateTime, nullable=True)
+
+    def __repr__(self):
+        return "\nUsers(user_id='{self.user_id}',\n" \
+               "\t\t name='{self.name}')\n"\
+               "\t\t phone='{self.phone}')\n"\
+               "\t\t address='{self.address}')".format(self=self)

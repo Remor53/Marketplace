@@ -2,7 +2,9 @@ from flask import Flask, render_template
 from avito_db_entities import Category, Advert
 import avito_db as db
 
+
 app = Flask(__name__)
+
 
 @app.route('/')
 @app.route('/home')
