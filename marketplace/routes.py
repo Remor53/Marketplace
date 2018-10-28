@@ -1,14 +1,15 @@
-from flask import Flask, render_template
-from avito_db_entities import Category, Advert
-import avito_db as db
+from flask import render_template, url_for
 from flask_security import login_required
-from flask_admin import Admin
 from flask_login import current_user, LoginManager
+from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
+from marketplace import app
+from marketplace.models import db, User, Category, Advert
 
-app = Flask(__name__)
+
 login = LoginManager(app)
+
 
 @login.user_loader
 def load_user(user_id):
@@ -19,8 +20,9 @@ class MyModelView(ModelView):
         return current_user.is_authenticated
 
 admin = Admin(app, name='Admin', template_mode='bootstrap3')
-admin.add_view(MyModelView(Category, db.create_session()))
-admin.add_view(MyModelView(Advert, db.create_session()))
+
+admin.add_view(MyModelView(Category, db.session))
+admin.add_view(MyModelView(Advert, db.session))
 
 @app.route('/login')
 def login():
@@ -41,11 +43,11 @@ def home():
         if category_number > 10:
             break
     '''
-    session = db.create_session()
-    for advert in session.query(Advert).all():
+    #session = db.create_session()
+    for advert in db.session.query(Advert).all():
         num += 1
         advert_list.append({'title': advert.title, 'description': advert.description, 'id': num})
-    session.close()
+    db.session.close()
 
     #return render_template('list.html', category=category_list, advert=advert_list)
     return render_template('home.html', advert=advert_list)
@@ -58,14 +60,8 @@ def about():
 def show_post(post_id):
     advert_item = dict()
     num = 0
-    session = db.create_session()
-    for advert in session.query(Advert).all():
-            num += 1
-            if num == post_id:
-                advert_item = {'title': advert.title, 'description': advert.description, 'id': num}
-    session.close()
+    for advert in db.session.query(Advert).all():
+        num += 1
+        if num == post_id:
+            advert_item = {'title': advert.title, 'description': advert.description, 'id': num}
     return render_template('card.html', advert=advert_item, title='Объявление №{}'.format(post_id))
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
