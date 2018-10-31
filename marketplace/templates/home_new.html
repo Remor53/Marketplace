@@ -1,0 +1,21 @@
+{% extends "layout_new.html" %}
+{% block content %}
+    <div class="container">
+      <div class="row text-justify justify-content-center row-h2">
+        <h2>Винтажные оправы</h2>
+      </div>
+      <div class="row text-justify justify-content-center">
+          {% for item in advert %}
+                <div class='col-xs-12 col-sm-4 col-md-4'>
+                  <div class="item-img justify-content-center">
+                    <img src="{{ url_for('static', filename='imgs/1_0320.jpg') }}" class="img-responsive">
+                  </div>
+                  <div class="item-title">
+                   <a class="item-title" href="/home/{{ item.id }}">{{ item.title }}</a>
+                   <p class="item-content text-justify">{{ item.description }}</p>                   
+                  </div>
+                </div>
+          {% endfor%}
+      </div>
+    </div>
+{% endblock content %}

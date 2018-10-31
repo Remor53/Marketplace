@@ -50,7 +50,7 @@ def home():
     db.session.close()
 
     #return render_template('list.html', category=category_list, advert=advert_list)
-    return render_template('home.html', advert=advert_list)
+    return render_template('home_new.html', advert=advert_list)
 
 @app.route('/about')
 def about():
