@@ -5,7 +5,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
 from marketplace import app
-from marketplace.models import db, User, Category, Advert
+from marketplace.models import db, User, Category, Advert, Item
 
 
 login = LoginManager(app)
@@ -34,7 +34,7 @@ def login():
 @app.route('/')
 @app.route('/home')
 def home():
-    advert_list = list()
+    item_list = list()
     num = 0
     '''
         for category in db.session.query(Category).all():
@@ -44,13 +44,14 @@ def home():
             break
     '''
     #session = db.create_session()
-    for advert in db.session.query(Advert).all():
+    for item in db.session.query(Item).all():
         num += 1
-        advert_list.append({'title': advert.title, 'description': advert.description, 'id': num})
+        item_list.append({'title': item.title, 'description': item.description, 'id': num,
+                          'item_id': item.item_id, 'price': item.price})
     db.session.close()
 
     #return render_template('list.html', category=category_list, advert=advert_list)
-    return render_template('home_new.html', advert=advert_list)
+    return render_template('home_new.html', items=item_list)
 
 @app.route('/about')
 def about():
@@ -58,10 +59,6 @@ def about():
 
 @app.route('/home/<int:post_id>')
 def show_post(post_id):
-    advert_item = dict()
-    num = 0
-    for advert in db.session.query(Advert).all():
-        num += 1
-        if num == post_id:
-            advert_item = {'title': advert.title, 'description': advert.description, 'id': num}
-    return render_template('card.html', advert=advert_item, title='Объявление №{}'.format(post_id))
+    item_post_id = db.session.query(Item).filter(Item.id == post_id).first()
+    #advert_item = {'title': advert.title, 'description': advert.description, 'id': num}
+    return render_template('card_new.html', item=item_post_id, title='Объявление №{}'.format(post_id))
