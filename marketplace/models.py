@@ -24,10 +24,9 @@ class User(db.Model, UserMixin):
 
 class Category(db.Model):
     __tablename__ = 'categories'
-#    category_id = db.Column(db.String(50), primary_key=True)
-#    name = db.Column(db.String(50), nullable=True, unique=True)
-    name = db.Column(db.String(50), primary_key=True)
-    href = db.Column(db.String, nullable=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    items = db.relationship('Item', backref='category')
 
     def __repr__(self):
         return "\nCategory(name='{self.name}',\n" \
@@ -41,8 +40,8 @@ class Item(db.Model):
     image_href = db.Column(db.String(255), nullable=False, unique=True)
     description = db.Column(db.String(255), nullable=True)
     price = db.Column(db.Integer, nullable=True)
-#    category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
-#    category = db.relationship("Category", back_populates="categories")
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+
 
     def __repr__(self):
         return "\nItem(item_id='{self.item_id}',\n" \

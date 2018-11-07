@@ -2,7 +2,11 @@
 {% block content %}
     <div class="container">
       <div class="row text-justify justify-content-center row-h2">
-        <h2>Винтажные оправы</h2>
+        {% if title %}
+            <h2>{{ '{} оправы'.format(title) }}</h2>
+        {% else %}
+            <h2> Винтаженые оправы </h2>
+        {% endif %}
       </div>
       <div class="row text-justify justify-content-center">
           {% for item in items %}

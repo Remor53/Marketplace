@@ -10,6 +10,7 @@ from marketplace.models import db, User, Category, Advert, Item
 
 login = LoginManager(app)
 
+categories_names_query = db.session.query(Category).all()
 
 @login.user_loader
 def load_user(user_id):
@@ -33,6 +34,7 @@ def login():
 
 @app.route('/')
 @app.route('/home')
+@app.route('/home/')
 def home():
     item_list = list()
     num = 0
@@ -51,14 +53,21 @@ def home():
     db.session.close()
 
     #return render_template('list.html', category=category_list, advert=advert_list)
-    return render_template('home_new.html', items=item_list)
+    return render_template('home_new.html', items=item_list, title='Все', categories=categories_names_query)
+
 
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
 
+
 @app.route('/home/<int:post_id>')
 def show_post(post_id):
     item_post_id = db.session.query(Item).filter(Item.id == post_id).first()
-    #advert_item = {'title': advert.title, 'description': advert.description, 'id': num}
-    return render_template('card_new.html', item=item_post_id, title='Объявление №{}'.format(post_id))
+    return render_template('card_new.html', item=item_post_id, title='Выбранная оправа')
+
+
+@app.route('/home/cat_<int:category>')
+def show_category(category):
+    category_query = db.session.query(Category).filter_by(id=category).first()
+    return render_template('home_new.html', items=category_query.items, title=category_query.name, categories=categories_names_query)
