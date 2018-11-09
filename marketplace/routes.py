@@ -1,7 +1,7 @@
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect
 from flask_security import login_required
-from flask_login import current_user, LoginManager
-from flask_admin import Admin
+from flask_login import current_user, LoginManager, login_user, logout_user
+from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
 from marketplace import app
@@ -14,21 +14,33 @@ login = LoginManager(app)
 @login.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+class MyAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        return current_user.is_authenticated
 
 class MyModelView(ModelView):
     def is_accessible(self):
         return current_user.is_authenticated
 
-admin = Admin(app, name='Admin', template_mode='bootstrap3')
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
+admin = Admin(app, name='Admin', template_mode='bootstrap3', index_view=MyAdminIndexView())
 
 admin.add_view(MyModelView(Category, db.session))
 admin.add_view(MyModelView(Advert, db.session))
+admin.add_view(MyModelView(User, db.session))
 
 @app.route('/login')
 def login():
     user = User.query.get(1)
-    login_user(login)
+    login_user(user)
     return 'Logged in'
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return 'Logged out'
 
 
 @app.route('/')
