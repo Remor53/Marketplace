@@ -21,12 +21,32 @@ class User(db.Model, UserMixin):
                "\t\t phone='{self.phone}')\n".format(self=self)
 
 class Category(db.Model):
-    name = db.Column(db.String(50), primary_key=True)
-    href = db.Column(db.String, nullable=True, unique=True)
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True)
+    items = db.relationship('Item', backref='category')
 
     def __repr__(self):
         return "\nCategory(name='{self.name}',\n" \
                "\t\t href='{self.href}')".format(self=self)
+
+class Item(db.Model):
+    __tablename__ = 'items'
+    id = db.Column(db.Integer, primary_key=True)
+    item_id = db.Column(db.Integer, nullable=False, unique=True)
+    title = db.Column(db.String(50), index=True)
+    image_href = db.Column(db.String(255), nullable=False, unique=True)
+    description = db.Column(db.String(255), nullable=True)
+    price = db.Column(db.Integer, nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+
+
+    def __repr__(self):
+        return "\nItem(item_id='{self.item_id}',\n" \
+               "\t\t title='{self.title}')\n"\
+               "\t\t image_href='{self.image_href}')\n" \
+               "\t\t price='{self.price}')\n" \
+               "\t\t description='{self.description}')".format(self=self)
 
 
 class Advert(db.Model):

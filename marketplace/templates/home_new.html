@@ -2,17 +2,25 @@
 {% block content %}
     <div class="container">
       <div class="row text-justify justify-content-center row-h2">
-        <h2>Винтажные оправы</h2>
+        {% if title %}
+            <h2>{{ '{} оправы'.format(title) }}</h2>
+        {% else %}
+            <h2> Винтаженые оправы </h2>
+        {% endif %}
       </div>
       <div class="row text-justify justify-content-center">
-          {% for item in advert %}
-                <div class='col-xs-12 col-sm-4 col-md-4'>
-                  <div class="item-img justify-content-center">
-                    <img src="{{ url_for('static', filename='imgs/1_0320.jpg') }}" class="img-responsive">
-                  </div>
-                  <div class="item-title">
-                   <a class="item-title" href="/home/{{ item.id }}">{{ item.title }}</a>
-                   <p class="item-content text-justify">{{ item.description }}</p>                   
+          {% for item in items %}
+                <div class="item-container col-xs-12 col-sm-4 col-md-4">
+                  <div class="item-card-box">
+                    <div class="item-img-box">
+                        <img src="{{ url_for('static', filename='imgs/img_{}_1.jpg'.format(item.item_id)) }}" class="img-responsive item-img" alt="Glasses" width="350" height="350">
+                    </div>
+                    <div class="item-title-box">
+                        <a class="item-title-href" href="/home/{{ item.id }}">{{ item.title }}</a>
+                    </div>
+                    <div class="item-price-box">
+                        <p class="item-price text-justify">{{ '{} руб.'.format(item.price) }}</p>
+                    </div>
                   </div>
                 </div>
           {% endfor%}

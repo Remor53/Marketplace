@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # Config
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///avito_adv_old.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///party_of_2.db'
 app.config['SECRET_KEY'] = 'glassesdata'
 db = SQLAlchemy(app)
 

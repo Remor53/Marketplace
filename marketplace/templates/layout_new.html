@@ -32,7 +32,16 @@
                 <a class="nav-link" href="/">Магазин</a>    
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/about">Линзы и установка</a>    
+                 <div class="dropdown">
+                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       Выбери оправу
+                     </button>
+                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                       {% for category in categories %}
+                           <a class="dropdown-item-link" href="cat_{{ category.id }}">{{ category.name }}</a>
+                       {% endfor %}
+                     </div>
+                 </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/about">Доставка и возврат</a>    
